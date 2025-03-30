@@ -25,6 +25,12 @@ from ..modules.conditioners import ConditioningAttributes
 from ..utils.autocast import TorchAutocast
 
 
+# Base class for audio generation models
+# Integrates a compression and an LM model
+# Provides methods for audio generation in different modes
+# Handles conditioning on text and audio prompts
+# ABC means Abstract Base Class, any class that inherits from this class must implement the abstract methods (marked with @abstractmethod)
+# The LM model here is basically the transformer decoder that autoregressively generates codebook tokens
 class BaseGenModel(ABC):
     """Base generative model with convenient generation API.
 
