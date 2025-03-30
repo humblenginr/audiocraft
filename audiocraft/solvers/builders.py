@@ -50,12 +50,14 @@ def get_solver(cfg: omegaconf.DictConfig) -> StandardSolver:
     from .magnet import MagnetSolver, AudioMagnetSolver
     from .watermark import WatermarkSolver
     from .jasco import JascoSolver
+    from .extended_musicgen import ExtendedMusicGenSolver
     klass = {
         'compression': CompressionSolver,
         'musicgen': MusicGenSolver,
         'audiogen': AudioGenSolver,
         'magnet': MagnetSolver,
         'audio_magnet': AudioMagnetSolver,
+        'extended_musicgen': ExtendedMusicGenSolver,
         'lm': MusicGenSolver,  # backward compatibility
         'diffusion': DiffusionSolver,
         'sound_lm': AudioGenSolver,  # backward compatibility

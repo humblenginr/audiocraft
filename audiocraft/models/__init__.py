@@ -21,3 +21,5 @@ from .magnet import MAGNeT
 from .unet import DiffusionUnet
 from .watermark import WMModel
 from .jasco import JASCO
+from .extended_lm import ExtendedLMModel
+from .extended_musicgen import ExtendedMusicGen

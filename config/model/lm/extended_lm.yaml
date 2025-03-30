@@ -1,0 +1,10 @@
+# @package model
+
+# Extended LM model configuration - extends the existing LM model configuration
+# with parameters for the extended transformer layers
+
+defaults:
+  - lm/musicgen_lm  # Start with the base MusicGen LM configuration
+
+# Override the LM model type
+name: extended_lm 

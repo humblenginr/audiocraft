@@ -1,0 +1,87 @@
+# @package __global__
+
+# This config extends the musicgen.yaml configuration for training an extended MusicGen model
+# with additional transformer layers on top of a frozen pretrained model.
+
+defaults:
+  - musicgen/default
+  - /model: lm/extended_lm
+  - override /dset: audio/default
+  - _self_
+
+autocast: true
+autocast_dtype: float16
+
+# Override specific settings from musicgen config
+solver: extended_musicgen
+lm_model: extended_lm
+
+# Path to the pretrained model checkpoint to extend
+pretrained_model_checkpoint: //pretrained/facebook/musicgen-medium
+
+# EnCodec model configuration
+compression_model_checkpoint: //pretrained/facebook/encodec_32khz
+
+channels: 1
+sample_rate: 32000
+
+
+deadlock:
+  use: true  # deadlock detection
+
+dataset:
+  batch_size: 1  # Use a smaller batch size
+  num_workers: 0  # Use 0 workers to avoid multiprocessing issues
+  sample_on_weight: false  # Uniform sampling all the way
+  sample_on_duration: false  # Uniform sampling all the way
+
+# Extended model configuration
+extended_model:
+  # Number of additional transformer layers to add
+  num_additional_layers: 12
+  
+  # Any additional arguments to pass to the transformer layers
+  transformer_args:
+    # Optionally override transformer parameters from the base model
+    activation: gelu  # can be 'gelu', 'relu', etc.
+    attention_dropout: 0.0
+    dropout: 0.0
+
+generate:
+  lm:
+    use_sampling: true
+    top_k: 250
+    top_p: 0.0
+
+# Adjust optimizer settings to work well with the extended model
+optim:
+  # Setting a higher learning rate since we're only training new layers
+  lr: 1e-4
+  adamw:
+    weight_decay: 0.01
+  max_norm: 5.0
+  eager_sync: true
+  optimizer: adamw
+  ema:
+    use: true
+    decay: 0.999
+
+# Learning rate schedule
+schedule:
+  lr_scheduler: cosine
+  cosine:
+    warmup: 1000  # Fewer warmup steps since we're fine-tuning
+    lr_min_ratio: 0.0
+    cycle_length: 1.0
+
+# Adjust training parameters
+train:
+  num_steps: 50000
+  model_loss_weight: 1.0
+  valid_every: 1000
+  save_every: 1000
+
+# Logging during training
+logging:
+  log_tensorboard: true
+  metrics_log_interval: 10 

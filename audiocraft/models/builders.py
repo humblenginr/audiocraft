@@ -39,6 +39,7 @@ from .lm_magnet import MagnetLMModel
 from .flow_matching import FlowMatchingModel
 from .unet import DiffusionUnet
 from .watermark import WMModel
+from .extended_lm import ExtendedLMModel
 
 
 def get_quantizer(
@@ -135,7 +136,11 @@ def get_jasco_model(cfg: omegaconf.DictConfig,
 
 def get_lm_model(cfg: omegaconf.DictConfig) -> LMModel:
     """Instantiate a transformer LM."""
-    if cfg.lm_model in ["transformer_lm", "transformer_lm_magnet"]:
+    if cfg.lm_model == "extended_lm":
+        # For extended LM, we don't instantiate a model here
+        # as we'll load a pretrained model and extend it in the solver
+        return None
+    elif cfg.lm_model in ["transformer_lm", "transformer_lm_magnet"]:
         kwargs = dict_from_config(getattr(cfg, "transformer_lm"))
         n_q = kwargs["n_q"]
         q_modeling = kwargs.pop("q_modeling", None)
