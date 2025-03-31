@@ -50,7 +50,7 @@ for name, module in model.lm.named_modules():
 # Set generation parameters
 model.set_generation_params(
     duration=10,
-    temperature=0.2,
+    temperature=1.0,
     top_k=250,
     top_p=0.0,
     use_sampling=True,
@@ -58,9 +58,13 @@ model.set_generation_params(
 
 # Test prompts
 descriptions = [
-    "A happy rock song with electric guitar and energetic drums",
-    "Soft peaceful piano melody with ambient pads",
-    "Electronic dance music with heavy bass and synths",
+    "This is an electronic song sending positive vibes.",
+    "This is a pop song with a catchy melody.",
+    "This is a rock song with a heavy guitar riff.",
+    "This is a jazz song with a smooth saxophone solo.",
+    "This is a country song with a simple acoustic guitar.",
+    "This is a hip-hop song with a catchy beat.",
+    "This is a classical song with a beautiful melody.",
 ]
 
 # Generate audio

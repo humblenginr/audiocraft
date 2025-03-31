@@ -30,10 +30,8 @@ deadlock:
   use: true  # deadlock detection
 
 dataset:
-  batch_size: 1  # Use a smaller batch size
+  batch_size: 6  # 192 for 32 GPUs (192/32 = 6 for 1 GPU)
   num_workers: 0  # Use 0 workers to avoid multiprocessing issues
-  sample_on_weight: false  # Uniform sampling all the way
-  sample_on_duration: false  # Uniform sampling all the way
 
 # Extended model configuration
 extended_model:
